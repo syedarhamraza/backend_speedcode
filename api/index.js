@@ -30,6 +30,8 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
+app.set("trust proxy", 1); // ✅ IMPORTANT for production on Vercel (or any reverse proxy)
+
 // ===== Middleware =====
 app.use(
   cors({
