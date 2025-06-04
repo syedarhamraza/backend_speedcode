@@ -191,6 +191,26 @@ app.put("/api/profile", async (req, res) => {
   }
 });
 
+// Get profile info
+app.get("/api/profile", async (req, res) => {
+  await connectDB();
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
+
+    const user = await User.findById(req.session.userId).select("name email");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Profile GET error:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // ===== Start Server =====
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
