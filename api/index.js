@@ -33,7 +33,7 @@ const User = mongoose.models.User || mongoose.model("User", userSchema);
 // ===== Middleware =====
 app.use(
   cors({
-    origin: "https://frontend-speedcode.vercel.app/",
+    origin: "https://frontend-speedcode.vercel.app",
     credentials: true,
   })
 );
