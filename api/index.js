@@ -33,7 +33,7 @@ const User = mongoose.models.User || mongoose.model("User", userSchema);
 // ===== Middleware =====
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: "https://frontend-speedcode.vercel.app",
     credentials: true,
   })
 );
@@ -52,7 +52,7 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
     },
   })
 );
