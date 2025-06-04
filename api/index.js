@@ -33,7 +33,7 @@ const User = mongoose.models.User || mongoose.model("User", userSchema);
 // ===== Middleware =====
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+    origin: process.env.CLIENT_ORIGIN,
     credentials: true,
   })
 );
@@ -41,7 +41,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "your-secret-key",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
