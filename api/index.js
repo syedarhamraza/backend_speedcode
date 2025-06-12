@@ -160,8 +160,7 @@ app.post("/api/submit", async (req, res) => {
       user.score = 0;
     }
 
-    // Add new score to existing, but cap at 100
-    user.score = Math.min(user.score + incomingScore, 100);
+    user.score = user.score + incomingScore;
 
     await user.save();
 
