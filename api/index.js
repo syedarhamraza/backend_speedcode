@@ -35,7 +35,7 @@ app.set("trust proxy", 1); // ✅ IMPORTANT for production on Vercel (or any rev
 // ===== Middleware =====
 app.use(
   cors({
-    origin: "https://frontend-speedcode.vercel.app",
+    origin: "https://frontend-speedcode.vercel.app" || "http://localhost:3000",
     credentials: true,
   })
 );
