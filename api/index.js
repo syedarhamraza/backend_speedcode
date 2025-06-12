@@ -145,13 +145,27 @@ app.post("/api/submit", async (req, res) => {
     const user = await User.findById(req.session.userId);
     if (!user) return res.status(404).json({ error: "User not found" });
 
-    if (user.score !== null)
-      return res.status(400).json({ error: "Already submitted" });
+    const incomingScore = req.body.score;
 
-    user.score = req.body.score;
+    if (
+      typeof incomingScore !== "number" ||
+      incomingScore < 0 ||
+      incomingScore > 100
+    ) {
+      return res.status(400).json({ error: "Invalid score" });
+    }
+
+    // If user has no score yet, initialize it to 0
+    if (user.score === null || typeof user.score !== "number") {
+      user.score = 0;
+    }
+
+    // Add new score to existing, but cap at 100
+    user.score = Math.min(user.score + incomingScore, 100);
+
     await user.save();
 
-    res.json({ message: "Score submitted" });
+    res.json({ message: "Score added successfully", totalScore: user.score });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
