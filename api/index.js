@@ -224,6 +224,14 @@ app.get("/api/profile", async (req, res) => {
   }
 });
 
+app.get("/api/session", (req, res) => {
+  if (req.session.user) {
+    res.json({ user: req.session.user });
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
+});
+
 // ===== Start Server =====
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
