@@ -224,12 +224,16 @@ app.get("/api/profile", async (req, res) => {
   }
 });
 
-app.get("/api/session", (req, res) => {
-  if (req.session.user) {
-    res.json({ user: req.session.user });
-  } else {
-    res.status(401).json({ message: "Not authenticated" });
+app.get("/api/session", async (req, res) => {
+  await connectDB();
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "Not authenticated" });
   }
+
+  const user = await User.findById(req.session.userId).select("name email");
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.json({ user });
 });
 
 // ===== Start Server =====
